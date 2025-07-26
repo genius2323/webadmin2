@@ -131,9 +131,13 @@
                         </button>
                         <ul class="submenu">
                             <?php foreach ($klasifikasi_segments as $segment): ?>
+                                <?php
+                                $label = str_replace('master', 'Master ', $segment);
+                                $label = ucwords(str_replace('_', ' ', $label));
+                                ?>
                                 <li>
                                     <a href="<?= site_url($segment) ?>" class="nav-link <?= $uri->getSegment(1) == $segment ? 'active' : '' ?>">
-                                        <?= ucfirst(str_replace('master', 'Master ', $segment)) ?>
+                                        <?= $label ?>
                                     </a>
                                 </li>
                             <?php endforeach; ?>
@@ -198,6 +202,10 @@
             if (sidebarToggle) {
                 sidebarToggle.addEventListener('click', () => {
                     layoutContainer.classList.toggle('collapsed');
+                    // Collapse semua submenu jika sidebar di-minimize
+                    if (layoutContainer.classList.contains('collapsed')) {
+                        document.querySelectorAll('.has-sub').forEach(el => el.classList.remove('open'));
+                    }
                 });
             }
 
@@ -214,8 +222,17 @@
 
             // --- Fungsi Dropdown Menu ---
             document.querySelectorAll('.nav-toggle').forEach(toggle => {
-                toggle.addEventListener('click', () => {
+                toggle.addEventListener('click', function(e) {
                     const parent = toggle.closest('.has-sub');
+                    // Jika sidebar mini, klik menu dengan submenu akan buka sidebar dan submenu
+                    if (layoutContainer.classList.contains('collapsed')) {
+                        layoutContainer.classList.remove('collapsed');
+                        // Tutup semua submenu lain
+                        document.querySelectorAll('.has-sub').forEach(el => el.classList.remove('open'));
+                        parent.classList.add('open');
+                        e.stopPropagation();
+                        return;
+                    }
                     parent.classList.toggle('open');
                 });
             });

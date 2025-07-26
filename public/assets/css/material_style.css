@@ -1,15 +1,156 @@
+/* Material 3 Table Style */
+.table-m3 {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--color-surface);
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(var(--shadow-color), 0.06);
+    font-family: var(--font-family);
+    margin-bottom: 0;
+}
+
+.table-m3 th,
+.table-m3 td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-outline);
+    font-size: 1rem;
+}
+
+.table-m3 th {
+    background: var(--color-surface-container);
+    color: var(--color-on-surface-variant);
+    font-weight: 600;
+    border-top: none;
+}
+
+.table-m3 tr:last-child td {
+    border-bottom: none;
+}
+
+.table-m3 tbody tr:hover {
+    background: var(--color-primary-container);
+    transition: background 0.2s;
+}
+
+.table-m3 td {
+    color: var(--color-on-surface);
+}
+
+.table-m3 td .btn-m3 {
+    margin-right: 4px;
+}
+
+.table-m3 td .btn-m3:last-child {
+    margin-right: 0;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* Small & Danger Button */
+.btn-m3-sm {
+    padding: 6px 12px;
+    font-size: 0.95rem;
+    border-radius: var(--border-radius);
+    min-width: 36px;
+    min-height: 36px;
+}
+
+.btn-m3-danger {
+    background: #e53935;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(229, 57, 53, 0.08);
+}
+
+.btn-m3-danger:hover,
+.btn-m3-danger:focus {
+    background: #b71c1c;
+    color: #fff;
+}
+
+/* Material 3 style for native date input */
+.input-m3-date {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--color-outline);
+    border-radius: var(--border-radius-medium);
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+    font-size: 1rem;
+    font-family: var(--font-family);
+    transition: border-color var(--transition-speed-fast), box-shadow var(--transition-speed-fast);
+    appearance: none;
+    outline: none;
+    box-sizing: border-box;
+    margin-bottom: 4px;
+}
+
+.input-m3-date:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-container);
+}
+
+.input-m3-date:disabled {
+    background: var(--color-surface-bright);
+    color: var(--color-on-surface-variant);
+    opacity: 0.7;
+}
+
+/* Calendar icon for date input */
+.input-date-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-primary);
+    font-size: 22px;
+    pointer-events: none;
+}
+
+/* Material 3 style for button */
+.btn-m3 {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--border-radius-large);
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: var(--font-family);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(var(--shadow-color), 0.08);
+    transition: background-color var(--transition-speed-fast), box-shadow var(--transition-speed-fast);
+}
+
+.btn-m3:hover,
+.btn-m3:focus {
+    background-color: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+    box-shadow: 0 4px 16px rgba(var(--shadow-color), 0.12);
+}
+
 /* 1. Pengaturan Dasar & Variabel Desain (Termasuk Dark Mode) */
 :root {
     --font-family: 'Inter', sans-serif;
     --transition-speed-fast: 0.2s;
     --transition-speed-normal: 0.3s;
     --border-radius: 12px;
+    --border-radius-large: 16px;
+    --border-radius-medium: 12px;
     --sidebar-width: 280px;
     --sidebar-width-collapsed: 88px;
     --header-height: 64px;
 }
 
-/* Light Theme (Default) */
+/* Light Theme (Default) - TEMA BIRU */
 :root,
 body:not(.dark-mode) {
     --color-primary: #4285F4;
@@ -17,15 +158,17 @@ body:not(.dark-mode) {
     --color-primary-container: #D2E3FC;
     --color-on-primary-container: #0B1D2E;
     --color-surface-bright: #F8F9FA;
-    /* Latar utama lebih cerah */
     --color-surface: #FFFFFF;
+    --color-surface-container: #F1F3F4;
     --color-on-surface: #1F1F1F;
     --color-on-surface-variant: #5F6368;
-    --color-outline: #E0E0E0;
+    --color-outline: #DDE2E7;
     --shadow-color: 223, 225, 229;
+    --color-success: #1E8E3E;
+    --color-success-container: #E6F4EA;
 }
 
-/* Dark Theme */
+/* Dark Theme - TEMA BIRU */
 body.dark-mode {
     --color-primary: #8AB4F8;
     --color-on-primary: #0B1D2E;
@@ -37,6 +180,8 @@ body.dark-mode {
     --color-on-surface-variant: #9AA0A6;
     --color-outline: #444746;
     --shadow-color: 0, 0, 0;
+    --color-success: #A8DAB5;
+    --color-success-container: #2E473B;
 }
 
 *,
@@ -129,7 +274,7 @@ body {
     align-items: center;
     padding: 12px 16px;
     border-radius: var(--border-radius);
-    text-decoration: none;
+    text-decoration: none !important;
     color: var(--color-on-surface-variant);
     font-weight: 500;
     transition: background-color 0.2s, color 0.2s;
@@ -178,7 +323,6 @@ body {
 .submenu {
     list-style: none;
     padding-left: 24px;
-    /* Indentasi untuk submenu */
     margin: 4px 0;
     max-height: 0;
     overflow: hidden;
@@ -187,31 +331,24 @@ body {
 
 .has-sub.open>.submenu {
     max-height: 1000px;
-    /* Nilai besar untuk menampung semua item */
 }
 
 .submenu a {
     padding: 10px 16px;
     padding-left: 28px;
-    /* Indentasi lebih dalam untuk ikon */
     position: relative;
 }
 
 .submenu a::before {
-    content: '';
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: var(--color-on-surface-variant);
+    display: none;
 }
 
 .submenu a.active {
     font-weight: 600;
-    color: var(--color-primary);
+    color: var(--color-on-primary);
+    background: var(--color-primary);
+    border-radius: var(--border-radius-medium);
+    box-shadow: 0 2px 8px rgba(var(--shadow-color), 0.04);
 }
 
 .sidebar-heading {
@@ -261,24 +398,22 @@ body.dark-mode .icon-button:hover {
     color: var(--color-on-primary);
     padding: 8px 16px;
     border-radius: var(--border-radius);
-    text-decoration: none;
+    text-decoration: none !important;
     font-weight: 500;
     transition: background-color var(--transition-speed-fast);
 }
 
 .btn-logout-modern:hover {
-    background-color: #3367D6;
-    /* Varian lebih gelap dari primary */
+    opacity: 0.9;
 }
 
 
 /* 5. Komponen Konten */
 .content-card {
     background-color: var(--color-surface);
-    padding: 24px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 1px 3px 0 rgba(var(--shadow-color), 0.1), 0 1px 2px 0 rgba(var(--shadow-color), 0.06);
-    transition: background-color var(--transition-speed-normal), box-shadow var(--transition-speed-normal);
+    padding: 32px;
+    border-radius: var(--border-radius-large);
+    box-shadow: 0 4px 24px rgba(var(--shadow-color), 0.5);
 }
 
 .footer {
@@ -293,12 +428,9 @@ body.dark-mode .icon-button:hover {
     display: none;
 }
 
-/* Sembunyikan tombol mobile di desktop */
 .sidebar-toggle {
     display: inline-flex;
 }
-
-/* Tampilkan tombol desktop */
 
 .layout-container.collapsed {
     grid-template-columns: var(--sidebar-width-collapsed) 1fr;
@@ -308,7 +440,6 @@ body.dark-mode .icon-button:hover {
     transform: rotate(180deg);
 }
 
-/* PERBAIKAN UTAMA: Aturan untuk menyembunyikan elemen saat diciutkan */
 .layout-container.collapsed .sidebar-header {
     padding: 0;
     justify-content: center;
@@ -339,8 +470,6 @@ body.dark-mode .icon-button:hover {
     justify-content: center;
 }
 
-/* AKHIR PERBAIKAN UTAMA */
-
 
 /* 7. Responsif & Mobile View */
 @media (max-width: 992px) {
@@ -353,7 +482,6 @@ body.dark-mode .icon-button:hover {
 
     .layout-container.collapsed {
         grid-template-columns: 1fr;
-        /* Reset untuk mobile */
     }
 
     .sidebar {
@@ -369,12 +497,9 @@ body.dark-mode .icon-button:hover {
         display: inline-flex;
     }
 
-    /* Tampilkan tombol mobile */
     .sidebar-toggle {
         display: none;
     }
-
-    /* Sembunyikan tombol desktop */
 
     body.sidebar-open .sidebar {
         transform: translateX(0);
@@ -397,4 +522,112 @@ body.dark-mode .icon-button:hover {
         opacity: 1;
         visibility: visible;
     }
+}
+
+/* 8. Gaya untuk Form & Notifikasi */
+/* Badge Modern */
+.badge-modern {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin: 0 2px;
+    vertical-align: middle;
+    background: #eee;
+    color: #333;
+    text-align: center;
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+.badge-success-modern {
+    background: #1E8E3E;
+    color: #fff;
+}
+
+.badge-warning-modern {
+    background: #FFD600;
+    color: #333;
+}
+
+
+
+font-weight: 600;
+margin: 0;
+}
+
+.page-header-subtitle {
+    font-size: 1rem;
+    color: var(--color-on-surface-variant);
+    margin: 4px 0 0 0;
+}
+
+.form-group {
+    margin-bottom: 28px;
+}
+
+.form-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--color-on-surface-variant);
+}
+
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    margin-bottom: 24px;
+}
+
+.alert-success {
+    background-color: var(--color-success-container);
+    color: var(--color-success);
+}
+
+.alert-icon {
+    font-size: 1.5rem;
+}
+
+.alert-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.alert-close:hover {
+    opacity: 1;
+}
+
+/* 9. Override gaya MWC */
+md-filled-button {
+    --md-filled-button-container-shape: 9999px;
+}
+
+md-outlined-select,
+md-outlined-text-field,
+md-filled-button,
+md-menu-item {
+    width: 100%;
+    --md-sys-typescale-body-large-font-family: var(--font-family);
+    --md-sys-typescale-label-large-font-family: var(--font-family);
+    --md-sys-typescale-headline-small-font-family: var(--font-family);
+    --md-sys-typescale-title-small-font-family: var(--font-family);
+    --md-ref-typeface-brand: var(--font-family);
+    --md-ref-typeface-plain: var(--font-family);
+}
+
+md-filled-button [slot="icon"] {
+    vertical-align: middle;
 }

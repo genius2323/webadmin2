@@ -1,188 +1,248 @@
 <?= $this->extend('layout/template') ?>
 <?= $this->section('content') ?>
 
+<!-- Memuat library Material Web Components -->
+<script type="module" src="https://esm.run/@material/web/all.js"></script>
 <style>
-    body {
-        background: #f6f8fa;
-    }
-
-    .batas-tanggal-modern-header {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-        margin-bottom: 18px;
-    }
-
-    .batas-tanggal-modern-icon {
-
-        color: #fff;
-        width: 54px;
-        height: 54px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 16px;
-        font-size: 2.2rem;
-        box-shadow: 0 2px 8px 0 rgba(30, 41, 59, 0.10);
-    }
-
-    .batas-tanggal-modern-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        letter-spacing: 0.2px;
-        color: #1e293b;
-    }
-
-    .batas-tanggal-modern-subtitle {
-        font-size: 1.05rem;
-        color: #64748b;
-        margin-top: 2px;
-    }
-
-    .batas-tanggal-modern-form {
-        background: #fff;
-        border-radius: 22px;
-        box-shadow: 0 4px 32px 0 rgba(30, 41, 59, 0.10);
-        padding: 36px 32px 28px 32px;
-        max-width: 430px;
+    .form-container {
+        max-width: 650px;
         margin: 0 auto;
     }
 
-    .batas-tanggal-modern-form label {
-        font-weight: 600;
-        margin-bottom: 6px;
-        color: #1e293b;
-        display: block;
-        text-align: left;
+
+    .mode-selection {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
     }
 
-    .batas-tanggal-modern-form .form-control,
-    .batas-tanggal-modern-form .form-select {
-        border-radius: 12px;
-        font-size: 1.08rem;
-        padding: 10px 14px;
-        border: 1.5px solid #e2e8f0;
-        background: #f8fafc;
-        box-shadow: none;
-        margin-bottom: 22px;
-        transition: border-color 0.2s;
-        width: 100%;
-        display: block;
-        box-sizing: border-box;
+    @media (max-width: 600px) {
+        .mode-selection {
+            grid-template-columns: 1fr;
+        }
     }
 
-    .batas-tanggal-modern-form input[type="text"]#batas_tanggal {
-        padding: 10px 14px !important;
-        box-sizing: border-box;
-    }
 
-    .batas-tanggal-modern-form .form-control:focus,
-    .batas-tanggal-modern-form .form-select:focus {
-        border-color: #1976d2;
-        background: #fff;
-    }
-
-    .batas-tanggal-modern-form .form-check-input[type="radio"] {
-        accent-color: #1976d2;
-        width: 18px;
-        height: 18px;
-        margin-right: 7px;
-        margin-top: 0;
-        vertical-align: middle;
-    }
-
-    .batas-tanggal-modern-form .radio-group {
+    .mode-card {
         display: flex;
-        gap: 32px;
-        margin-bottom: 22px;
+        flex-direction: column;
         align-items: center;
+        padding: 20px;
+        border: 2px solid var(--color-outline);
+        border-radius: var(--border-radius-medium);
+        cursor: pointer;
+        transition: border-color var(--transition-speed-fast), background-color var(--transition-speed-fast), box-shadow 0.2s;
+        position: relative;
+        background: var(--color-surface);
+        box-shadow: 0 1px 4px rgba(66, 133, 244, 0.04);
+        user-select: none;
+        touch-action: manipulation;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
-    .batas-tanggal-modern-form .btn-primary {
-        min-width: 140px;
+    .mode-card:hover,
+    .mode-card:focus-visible {
+        background-color: var(--color-primary-container);
+        border-color: var(--color-primary);
+        box-shadow: 0 4px 16px rgba(66, 133, 244, 0.10);
+        outline: none;
+    }
+
+    .mode-card.selected {
+        border-color: var(--color-primary);
+        background-color: var(--color-primary);
+        color: var(--color-on-primary);
+        box-shadow: 0 4px 16px rgba(66, 133, 244, 0.12);
+    }
+
+    .mode-card.selected .material-symbols-outlined,
+    .mode-card.selected .mode-card-title,
+    .mode-card.selected .mode-card-desc {
+        color: var(--color-on-primary);
+    }
+
+    .mode-card:active {
+        background-color: var(--color-primary-container);
+        box-shadow: 0 2px 8px rgba(66, 133, 244, 0.08);
+    }
+
+    .mode-card .material-symbols-outlined {
+        font-size: 28px;
+        margin-bottom: 8px;
+        color: var(--color-primary);
+    }
+
+    .mode-card-title {
         font-weight: 600;
-        font-size: 1.08rem;
-        border-radius: 10px;
-        padding: 10px 0;
-        margin-top: 10px;
-        box-shadow: 0 2px 8px 0 rgba(30, 41, 59, 0.08);
-        transition: background 0.2s, box-shadow 0.2s;
+        color: var(--color-on-surface);
     }
 
-    .batas-tanggal-modern-form .btn-primary:hover {
-        background: #155fa0;
-        box-shadow: 0 4px 16px 0 rgba(30, 41, 59, 0.13);
+    .mode-card-desc {
+        font-size: 0.875rem;
+        color: var(--color-on-surface-variant);
+    }
+
+    .mode-card input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 32px;
+    }
+
+    /* Dropdown Material 3 style */
+    .select-m3 {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid var(--color-outline);
+        border-radius: var(--border-radius-medium);
+        background: var(--color-surface);
+        color: var(--color-on-surface);
+        font-size: 1rem;
+        font-family: var(--font-family);
+        transition: border-color var(--transition-speed-fast), box-shadow var(--transition-speed-fast);
+        appearance: none;
+        outline: none;
+        box-sizing: border-box;
+        margin-bottom: 4px;
+    }
+
+    .select-m3:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px var(--color-primary-container);
+    }
+
+    .select-m3:disabled {
+        background: var(--color-surface-bright);
+        color: var(--color-on-surface-variant);
+        opacity: 0.7;
+    }
+
+    .select-m3 option {
+        color: var(--color-on-surface);
+        background: var(--color-surface);
     }
 </style>
 
-<div class="container py-5">
-    <div class="batas-tanggal-modern-form">
-        <div class="batas-tanggal-modern-header">
-            <div class="batas-tanggal-modern-icon" style="box-shadow:0 2px 8px 0 rgba(30,41,59,0.10);">
-                <img src="<?= base_url('assets/icon/svgs/solid/calendar-check.svg') ?>" alt="Calendar" style="width:2.2rem;height:2.2rem;display:block;filter:drop-shadow(0 1px 2px #1976d233);color:#1976d2;">
-            </div>
-            <div>
-                <div class="batas-tanggal-modern-title">Batas Tanggal Sistem</div>
-                <div class="batas-tanggal-modern-subtitle">Atur batas tanggal transaksi penjualan.</div>
-            </div>
+<div class="form-container">
+    <div class="page-header">
+        <div class="page-header-icon">
+            <span class="material-symbols-outlined">verified_user</span>
         </div>
+        <h1 class="page-header-title">Batas Tanggal Sistem</h1>
+        <p class="page-header-subtitle">Tingkatkan keamanan dengan mengatur batas waktu input transaksi.</p>
+    </div>
+
+    <div class="content-card">
         <?php if (session('success')): ?>
-            <div class="modern-success-notif animate__animated animate__fadeInDown" style="background:linear-gradient(90deg,#22c55e 0%,#16a34a 100%);color:#fff;padding:18px 28px 18px 56px;border-radius:16px;box-shadow:0 4px 24px 0 rgba(30,41,59,0.13);position:relative;display:flex;align-items:center;gap:16px;font-size:1.08rem;margin-bottom:28px;">
-                <span style="position:absolute;left:22px;font-size:1.4rem;top:18px;"><i class="fa fa-check-circle"></i></span>
-                <span style="font-weight:600;letter-spacing:0.1px;flex:1;line-height:1.4;"><?= session('success') ?></span>
-                <button type="button" onclick="this.parentElement.style.display='none'" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer;line-height:1;">&times;</button>
+            <div class="alert alert-success">
+                <span class="material-symbols-outlined alert-icon">check_circle</span>
+                <span><?= session('success') ?></span>
+                <button type="button" class="alert-close" onclick="this.parentElement.style.display='none'">&times;</button>
             </div>
         <?php endif; ?>
+
         <form action="<?= site_url('batas-tanggal/update') ?>" method="post" autocomplete="off">
             <input type="hidden" name="id" value="<?= esc($batas['id'] ?? '') ?>">
-            <div class="mb-3">
-                <label for="menu">Menu</label>
-                <select name="menu" id="menu" class="form-select" required>
-                    <option value="">-- Pilih Menu --</option>
+
+            <div class="form-group">
+                <label for="menu" class="form-label">Pilih Menu Transaksi<span style="color:red">*</span></label>
+                <select name="menu" id="menu" class="form-m3-input select-m3" required>
+                    <option value="" disabled <?= empty($batas['menu']) ? 'selected' : '' ?>>-- Pilih Menu --</option>
                     <option value="penjualan" <?= ($batas['menu'] ?? '') == 'penjualan' ? 'selected' : '' ?>>Penjualan</option>
                     <option value="pembelian" <?= ($batas['menu'] ?? '') == 'pembelian' ? 'selected' : '' ?>>Pembelian</option>
                     <option value="jurnal" <?= ($batas['menu'] ?? '') == 'jurnal' ? 'selected' : '' ?>>Jurnal</option>
                 </select>
             </div>
-            <div class="mb-3">
-                <label>Mode</label>
-                <div id="modeRadioGroup" class="radio-group">
-                    <label class="form-check-label d-flex align-items-center gap-2 mb-0">
-                        <input class="form-check-input" type="radio" name="mode" id="modeManual" value="manual" <?= ($batas['mode_batas_tanggal'] ?? '') == 'manual' ? 'checked' : '' ?>> Manual
+
+            <div class="form-group">
+                <label class="form-label">Pilih Mode Pengaturan</label>
+                <div class="mode-selection">
+                    <label class="mode-card" id="manual-card">
+                        <input type="radio" name="mode" value="manual" <?= ($batas['mode_batas_tanggal'] ?? 'manual') == 'manual' ? 'checked' : '' ?>>
+                        <span class="material-symbols-outlined">edit_calendar</span>
+                        <span class="mode-card-title">Manual</span>
+                        <span class="mode-card-desc">Atur Batas Tanggal</span>
                     </label>
-                    <label class="form-check-label d-flex align-items-center gap-2 mb-0">
-                        <input class="form-check-input" type="radio" name="mode" id="modeAutomatic" value="automatic" <?= ($batas['mode_batas_tanggal'] ?? '') == 'automatic' ? 'checked' : '' ?>> Automatic (H-2)
+                    <label class="mode-card" id="auto-card">
+                        <input type="radio" name="mode" value="automatic" <?= ($batas['mode_batas_tanggal'] ?? '') == 'automatic' ? 'checked' : '' ?>>
+                        <span class="material-symbols-outlined">autorenew</span>
+                        <span class="mode-card-title">Otomatis</span>
+                        <span class="mode-card-desc">H-2</span>
                     </label>
                 </div>
             </div>
-            <div class="mb-3" id="tanggalBatasGroup" style="display:<?= ($batas['mode_batas_tanggal'] ?? '') == 'manual' ? 'block' : 'none' ?>;">
-                <label for="batas_tanggal">Tanggal Batas</label>
-                <input type="text" name="batas_tanggal" id="batas_tanggal" class="form-control" value="<?= isset($batas['batas_tanggal']) ? date('d/m/Y', strtotime($batas['batas_tanggal'])) : date('d/m/Y') ?>" required placeholder="Pilih tanggal">
+
+            <div class="form-group" id="tanggalBatasGroup">
+                <label for="batas_tanggal" class="form-label">Tanggal Batas<span style="color:red">*</span></label>
+                <div style="position: relative;">
+                    <input
+                        type="text"
+                        name="batas_tanggal"
+                        id="batas_tanggal"
+                        class="form-m3-input input-m3-date"
+                        value="<?= isset($batas['batas_tanggal']) ? date('d/m/Y', strtotime($batas['batas_tanggal'])) : date('d/m/Y') ?>"
+                        required
+                        autocomplete="off"
+                        placeholder="Pilih tanggal batas">
+                    <span class="material-symbols-outlined input-date-icon">calendar_today</span>
+                </div>
             </div>
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    flatpickr('#batas_tanggal', {
-                        dateFormat: 'd/m/Y',
-                        disableMobile: true,
-                        allowInput: false
-                    });
-                    const modeManual = document.getElementById('modeManual');
-                    const modeAutomatic = document.getElementById('modeAutomatic');
-                    const tanggalBatasGroup = document.getElementById('tanggalBatasGroup');
-                    modeManual.addEventListener('change', function() {
-                        if (this.checked) tanggalBatasGroup.style.display = 'block';
-                    });
-                    modeAutomatic.addEventListener('change', function() {
-                        if (this.checked) tanggalBatasGroup.style.display = 'none';
-                    });
-                });
-            </script>
-            <div class="text-center w-100 mt-3">
-                <button type="submit" class="btn-modern btn-primary-modern px-5 py-2" style="font-size:1.08rem;min-width:140px;display:inline-block;text-align:center;">Simpan</button>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-m3">
+                    <span class="material-symbols-outlined" style="vertical-align: middle;">save</span>
+                    Simpan Pengaturan
+                </button>
             </div>
         </form>
     </div>
 </div>
+
+<!-- Flatpickr (Date Picker) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr('#batas_tanggal', {
+            dateFormat: 'd/m/Y',
+            disableMobile: true,
+            allowInput: false
+        });
+
+        // Tidak perlu JS untuk native select
+
+        const manualRadio = document.querySelector('input[value="manual"]');
+        const autoRadio = document.querySelector('input[value="automatic"]');
+        const manualCard = document.getElementById('manual-card');
+        const autoCard = document.getElementById('auto-card');
+        const tanggalBatasGroup = document.getElementById('tanggalBatasGroup');
+
+        function updateSelection() {
+            if (manualRadio.checked) {
+                manualCard.classList.add('selected');
+                autoCard.classList.remove('selected');
+                tanggalBatasGroup.style.display = 'block';
+            } else {
+                autoCard.classList.add('selected');
+                manualCard.classList.remove('selected');
+                tanggalBatasGroup.style.display = 'none';
+            }
+        }
+
+        updateSelection();
+
+        manualRadio.addEventListener('change', updateSelection);
+        autoRadio.addEventListener('change', updateSelection);
+    });
+</script>
+
 <?= $this->endSection() ?>

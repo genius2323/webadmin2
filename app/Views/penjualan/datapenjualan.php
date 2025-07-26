@@ -1,102 +1,91 @@
 <?= $this->extend('layout/template'); ?>
 <?= $this->section('content'); ?>
-<div class="page-header-modern">
+<div class="page-header-m3 d-flex align-items-center mb-3" style="gap:1rem;">
+    <span class="material-symbols-rounded page-header-icon-m3" style="font-size:2.2rem;color:#1976d2;">receipt_long</span>
     <div>
-        <h2 class="page-title">Data Penjualan</h2>
-        <div class="page-subtitle">Daftar seluruh transaksi penjualan.</div>
+        <h2 class="page-title-m3 mb-0">Data Penjualan</h2>
+        <div class="page-subtitle-m3" style="font-size:1rem;color:#666;margin-bottom:0;">Daftar seluruh transaksi penjualan.</div>
     </div>
-    <a href="<?= site_url('penjualan') ?>" class="btn-modern btn-primary-modern">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
-            <path d="M12 5v14m7-7H5" stroke="#fff" stroke-width="2" stroke-linecap="round" />
-        </svg> Buat Nota Baru
-    </a>
+    <div class="flex-grow-1"></div>
+    <?php if (isset($canCreate) ? $canCreate : true): ?>
+        <a href="<?= site_url('penjualan') ?>" class="btn-m3 btn-primary-m3">
+            <span class="material-symbols-rounded align-middle">add</span> Buat Nota Baru
+        </a>
+    <?php endif; ?>
 </div>
-<div class="card-modern">
-    <form method="get" action="" class="form-search-modern">
-        <input type="text" name="search" class="input-modern" placeholder="Cari nomor nota/customer/sales..." value="<?= esc($_GET['search'] ?? '') ?>">
-        <button type="submit" class="btn-modern btn-info-modern">Cari</button>
+<div class="card-m3">
+    <?php if (session()->getFlashdata('success')): ?>
+        <div class="alert-m3 alert-m3-success mb-3 text-center">
+            <span class="material-symbols-rounded align-middle">check_circle</span>
+            <?= session()->getFlashdata('success') ?>
+        </div>
+    <?php endif; ?>
+    <form method="get" action="" class="form-search-m3 mb-3">
+        <input type="text" name="keyword" class="input-m3" placeholder="Cari nomor nota/customer/sales..." value="<?= esc($_GET['keyword'] ?? '') ?>">
+        <button type="submit" class="btn-m3 btn-secondary-m3 btn-m3-sm">Cari</button>
     </form>
-    <div class="table-responsive-modern">
-        <table class="table-modern">
+    <div class="table-responsive-m3">
+        <table class="table-m3">
             <thead>
                 <tr>
-                    <th>Nomor Nota</th>
-                    <th>Tanggal</th>
-                    <th>Customer</th>
-                    <th>Sales</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
+                    <th class="text-center">Nomor Nota</th>
+                    <th class="text-center">Tanggal</th>
+                    <th class="text-center">Customer</th>
+                    <th class="text-center">Sales</th>
+                    <th class="text-center">Total</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($penjualan as $row): ?>
                     <?php
-                    $search = $_GET['search'] ?? '';
-                    if ($search && stripos($row['nomor_nota'] . $row['customer'] . $row['sales'], $search) === false) continue;
+                    $keyword = $_GET['keyword'] ?? '';
+                    if ($keyword && stripos($row['nomor_nota'] . $row['customer'] . $row['sales'], $keyword) === false) continue;
+                    $otoritas = $row['otoritas'] ?? 'T';
                     ?>
                     <tr>
-                        <td style="white-space: nowrap !important;"><?= esc($row['nomor_nota']) ?></td>
-                        <td style="white-space: nowrap !important;"><?= esc(date('d/m/Y', strtotime($row['tanggal_nota']))) ?></td>
-                        <td style="white-space: nowrap !important;"><?= esc($row['customer']) ?></td>
-                        <td style="white-space: nowrap !important;"><?= esc($row['sales']) ?></td>
-                        <td style="white-space: nowrap !important;">Rp <?= number_format($row['grand_total'], 0, ',', '.') ?></td>
-                        <td><span class="badge-modern <?= $row['status'] == 'completed' ? 'badge-success-modern' : 'badge-secondary-modern' ?>"><?= esc(ucfirst($row['status'])) ?></span></td>
-                        <td style="min-width:120px;display:flex;gap:6px;justify-content:center;align-items:center;">
-                            <a href="<?= site_url('penjualan/detail/' . $row['id']) ?>" class="btn-modern btn-info-modern" title="Detail">
-                                <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2" />
-                                    <circle cx="12" cy="12" r="3" fill="#fff" />
-                                </svg>
+                        <td class="text-center" style="white-space:nowrap;"><?= esc($row['nomor_nota']) ?></td>
+                        <td class="text-center" style="white-space:nowrap;"><?= esc(date('d/m/Y', strtotime($row['tanggal_nota']))) ?></td>
+                        <td class="text-center" style="white-space:nowrap;"><?= esc($row['customer']) ?></td>
+                        <td class="text-center" style="white-space:nowrap;"><?= esc($row['sales']) ?></td>
+                        <td class="text-center" style="white-space:nowrap;">Rp <?= number_format($row['grand_total'], 0, ',', '.') ?></td>
+                        <td class="text-center">
+                            <span class="badge-modern <?= $row['status'] == 'completed' ? 'badge-success-modern' : 'badge-warning-modern' ?>">
+                                <?= esc(ucfirst($row['status'])) ?>
+                            </span>
+                        </td>
+                        <td class="text-center" style="min-width:120px;display:flex;gap:6px;justify-content:center;align-items:center;">
+                            <a href="<?= site_url('penjualan/detail/' . $row['id']) ?>" class="btn-m3 btn-secondary-m3 btn-m3-sm" title="Detail">
+                                <span class="material-symbols-rounded align-middle">visibility</span>
                             </a>
-                            <a href="<?= site_url('penjualan/edit/' . $row['id']) ?>" class="btn-modern btn-warning-modern" title="Edit">
-                                <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-                                    <path d="M4 21h17" stroke="#fff" stroke-width="2" stroke-linecap="round" />
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L7 20.5 2 22l1.5-5L18.5 2.5Z" stroke="#fff" stroke-width="2" />
-                                </svg>
-                            </a>
-                            <a href="<?= site_url('penjualan/delete/' . $row['id']) ?>" class="btn-modern btn-danger-modern" title="Hapus" onclick="return confirm('Yakin ingin menghapus data ini? Data akan dihapus (soft delete) di dua database.')">
-                                <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-                                    <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z" stroke="#fff" stroke-width="2" />
-                                </svg>
-                            </a>
+                            <?php if ($otoritas === 'T'): ?>
+                                <a href="<?= site_url('penjualan/edit/' . $row['id']) ?>" class="btn-m3 btn-warning-m3 btn-m3-sm" title="Edit">
+                                    <span class="material-symbols-rounded align-middle">edit</span>
+                                </a>
+                                <a href="<?= site_url('penjualan/delete/' . $row['id']) ?>" class="btn-m3 btn-danger-m3 btn-m3-sm" title="Hapus" onclick="return confirm('Yakin ingin menghapus data ini? Data akan dihapus (soft delete) di dua database.')">
+                                    <span class="material-symbols-rounded align-middle">delete</span>
+                                </a>
+                            <?php else: ?>
+                                <span class="btn-m3 btn-warning-m3 btn-m3-sm disabled" title="Tidak ada otoritas" style="pointer-events:none;opacity:0.6;">
+                                    <span class="material-symbols-rounded align-middle">edit</span>
+                                </span>
+                                <span class="btn-m3 btn-danger-m3 btn-m3-sm disabled" title="Tidak ada otoritas" style="pointer-events:none;opacity:0.6;">
+                                    <span class="material-symbols-rounded align-middle">delete</span>
+                                </span>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
+    <!-- Pager modern jika ada -->
+    <?php if (isset($pager)) : ?>
+        <div class="pager-m3 mt-3 d-flex justify-content-center">
+            <?= $pager->links() ?>
+        </div>
+    <?php endif; ?>
 </div>
-<style>
-    .form-search-modern {
-        display: flex;
-        gap: 1em;
-        margin-bottom: 1.5em;
-        flex-wrap: wrap;
-    }
-
-    .btn-info-modern {
-        background: #4fc3f7;
-        color: #fff;
-    }
-
-    .btn-info-modern:hover {
-        background: #232946;
-        color: #4fc3f7;
-    }
-
-    @media (max-width: 768px) {
-        .table-modern {
-            min-width: 500px;
-        }
-
-        .card-modern {
-            padding: 1.2rem 0.7rem 1rem 0.7rem;
-        }
-
-        .main-content {
-            padding: 1rem 0.2rem 1rem 0.2rem;
-        }
-    }
-</style>
+<!-- Material 3 styles assumed to be globally included. -->
 <?= $this->endSection(); ?>

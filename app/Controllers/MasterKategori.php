@@ -9,7 +9,12 @@ class MasterKategori extends BaseController
     public function index()
     {
         $model = new MasterKategoriModel();
-        $data['kategori'] = $model->where('deleted_at', null)->paginate(15);
+        $search = $this->request->getGet('search');
+        $builder = $model->where('deleted_at', null);
+        if ($search) {
+            $builder = $builder->like('name', $search);
+        }
+        $data['kategori'] = $builder->paginate(15);
         $data['pager'] = $model->pager;
         $data['title'] = 'Master Kategori';
         return view('master_kategori/index', $data);

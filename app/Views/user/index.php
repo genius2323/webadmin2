@@ -1,235 +1,88 @@
 <?= $this->extend('layout/template') ?>
-
 <?= $this->section('content') ?>
-<div class="page-header-modern">
+
+<div class="page-header" style="display:flex;align-items:center;gap:16px;margin-left:24px;margin-bottom:18px;">
+    <div class="page-header-icon" style="display:flex;align-items:center;">
+        <span class="material-symbols-outlined" style="font-size:2.2rem;">group</span>
+    </div>
     <div>
-        <h2 class="page-title">Data User</h2>
-        <div class="page-subtitle">Daftar seluruh user aplikasi.</div>
+        <h1 class="page-header-title" style="margin:0;">Manajemen User</h1>
+        <p class="page-header-subtitle" style="margin:0;">Kelola seluruh user aplikasi di sini.</p>
     </div>
-    <a href="<?= site_url('user/create') ?>" class="btn-modern btn-primary-modern">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
-            <path d="M12 5v14m7-7H5" stroke="#fff" stroke-width="2" stroke-linecap="round" />
-        </svg> Tambah User
-    </a>
 </div>
-<?php if (session()->getFlashdata('success')): ?>
-    <div class="alert-modern alert-success-modern">
-        <?= esc(session()->getFlashdata('success')) ?>
-        <button type="button" class="close-alert" onclick="this.parentElement.style.display='none'">&times;</button>
+<div class="content-card">
+    <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+        <form method="get" style="display: flex; gap: 6px; align-items: center;">
+            <input type="text" name="keyword" class="input-m3-date" placeholder="Cari nama/username..." value="<?= esc($_GET['keyword'] ?? '') ?>" style="height:32px; font-size:0.95rem; padding:6px 10px; border-radius:8px;">
+            <button type="submit" class="btn-m3 btn-m3-sm" style="height:32px; min-width:32px; padding:6px 10px; border-radius:8px;" title="Cari"><span class="material-symbols-outlined" style="font-size:18px;">search</span></button>
+        </form>
+        <a href="<?= site_url('user/create') ?>" class="btn-m3 btn-m3-sm" style="height:32px; min-width:32px; padding:6px 10px; border-radius:8px; text-decoration:none;">
+            <span class="material-symbols-outlined" style="vertical-align: middle; font-size:18px;">add</span>
+            <span style="font-size:0.95rem;">Tambah</span>
+        </a>
     </div>
-<?php endif; ?>
-<div class="card-modern">
-    <div class="table-responsive-modern">
-        <table class="table-modern">
+    <?php if (session()->getFlashdata('success')): ?>
+        <div class="alert alert-success">
+            <span class="material-symbols-outlined alert-icon">check_circle</span>
+            <span><?= esc(session()->getFlashdata('success')) ?></span>
+            <button type="button" class="alert-close" onclick="this.parentElement.style.display='none'">&times;</button>
+        </div>
+    <?php endif; ?>
+    <div class="table-responsive">
+        <table class="table-m3">
             <thead>
                 <tr>
-                    <th>Nama</th>
-                    <th>Username</th>
-                    <th>Alamat</th>
-                    <th>No KTP</th>
-                    <th>Otoritas</th>
-                    <th>Aksi</th>
+                    <th style="text-align:center;">No</th>
+                    <th style="text-align:center;">Nama</th>
+                    <th style="text-align:center;">Username</th>
+                    <th style="text-align:center;">Alamat</th>
+                    <th style="text-align:center;">No KTP</th>
+                    <th style="text-align:center;">Otoritas</th>
+                    <th style="text-align:center;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user): ?>
+                <?php if (!empty($users)): ?>
+                    <?php foreach ($users as $i => $user): ?>
+                        <tr>
+                            <td style="text-align:center;"><?= $i + 1 ?></td>
+                            <td style="white-space: nowrap !important;"><?= esc($user['nama']) ?></td>
+                            <td style="white-space: nowrap !important;"><?= esc($user['username']) ?></td>
+                            <td style="text-align:center;"><?= esc($user['alamat']) ?></td>
+                            <td style="text-align:center;"><?= esc($user['noktp']) ?></td>
+                            <td style="text-align:center;">
+                                <?php if ($user['otoritas'] === 'T'): ?>
+                                    <span class="badge-modern badge-success-modern">Sudah Otorisasi</span>
+                                <?php else: ?>
+                                    <span class="badge-modern badge-warning-modern">Belum Otorisasi</span>
+                                <?php endif; ?>
+                            </td>
+                            <td style="min-width:60px;display:flex;gap:4px;justify-content:center;align-items:center;">
+                                <?php if ($user['otoritas'] === 'T'): ?>
+                                    <a href="<?= site_url('user/edit/' . $user['id']) ?>" class="btn-m3 btn-m3-sm btn-m3-warning" style="height:28px; min-width:28px; padding:4px 8px; border-radius:8px; text-decoration:none; background:#FFD600; color:#333;">
+                                        <span class="material-symbols-outlined" style="font-size:16px;">edit</span>
+                                    </a>
+                                    <a href="<?= site_url('user/delete/' . $user['id']) ?>" class="btn-m3 btn-m3-sm btn-m3-danger" style="height:28px; min-width:28px; padding:4px 8px; border-radius:8px; text-decoration:none; background:#e53935; color:#fff;" onclick="return confirm('Yakin ingin menghapus user ini?')">
+                                        <span class="material-symbols-outlined" style="font-size:16px;">delete</span>
+                                    </a>
+                                <?php else: ?>
+                                    <span class="btn-m3 btn-m3-sm btn-m3-warning" style="height:28px; min-width:28px; padding:4px 8px; border-radius:8px; background:#FFD600; color:#333; opacity:0.6; cursor:not-allowed; display:inline-flex; align-items:center; justify-content:center;">
+                                        <span class="material-symbols-outlined" style="font-size:16px;">edit</span>
+                                    </span>
+                                    <span class="btn-m3 btn-m3-sm btn-m3-danger" style="height:28px; min-width:28px; padding:4px 8px; border-radius:8px; background:#e53935; color:#fff; opacity:0.6; cursor:not-allowed; display:inline-flex; align-items:center; justify-content:center;">
+                                        <span class="material-symbols-outlined" style="font-size:16px;">delete</span>
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
                     <tr>
-                        <td><?= esc($user['nama']) ?></td>
-                        <td><?= esc($user['username']) ?></td>
-                        <td><?= esc($user['alamat']) ?></td>
-                        <td><?= esc($user['noktp']) ?></td>
-                        <td>
-                            <?php if ($user['otoritas'] === 'T'): ?>
-                                <span class="badge-modern badge-success-modern">Sudah Otorisasi</span>
-                            <?php else: ?>
-                                <span class="badge-modern badge-secondary-modern">Belum Otorisasi</span>
-                            <?php endif; ?>
-                        </td>
-                        <td style="min-width:70px;display:flex;gap:6px;justify-content:center;align-items:center;">
-                            <a href="<?= site_url('user/edit/' . $user['id']) ?>" class="btn-modern btn-warning-modern" title="Edit"
-                                <?php if (empty($user['otoritas']) || $user['otoritas'] !== 'T'): ?>disabled style="pointer-events:none;opacity:0.6;" <?php endif; ?>>
-                                <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-                                    <path d="M4 21h17" stroke="#fff" stroke-width="2" stroke-linecap="round" />
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L7 20.5 2 22l1.5-5L18.5 2.5Z" stroke="#fff" stroke-width="2" />
-                                </svg>
-                            </a>
-                            <a href="<?= site_url('user/delete/' . $user['id']) ?>" class="btn-modern btn-danger-modern" title="Hapus"
-                                <?php if (empty($user['otoritas']) || $user['otoritas'] !== 'T'): ?>disabled style="pointer-events:none;opacity:0.6;" <?php endif; ?>
-                                onclick="return confirm('Yakin ingin menghapus user ini?')">
-                                <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-                                    <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z" stroke="#fff" stroke-width="2" />
-                                </svg>
-                            </a>
-                        </td>
+                        <td colspan="7" style="text-align:center; color:var(--color-on-surface-variant);">Data tidak ditemukan</td>
                     </tr>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
 </div>
-<style>
-    .page-header-modern {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 2rem;
-        gap: 1.5rem;
-    }
-
-    .page-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin: 0;
-        color: #232946;
-    }
-
-    .page-subtitle {
-        font-size: 1.02rem;
-        color: #6c7a89;
-        margin-top: 0.2rem;
-    }
-
-    .btn-modern {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5em;
-        font-size: 1em;
-        font-weight: 600;
-        border: none;
-        border-radius: 8px;
-        padding: 0.55em 1.2em;
-        cursor: pointer;
-        transition: background 0.18s, color 0.18s;
-        text-decoration: none;
-    }
-
-    .btn-primary-modern {
-        background: linear-gradient(90deg, #4fc3f7 0%, #232946 100%);
-        color: #fff;
-    }
-
-    .btn-primary-modern:hover {
-        background: #232946;
-        color: #4fc3f7;
-    }
-
-    .btn-warning-modern {
-        background: #f7b731;
-        color: #fff;
-    }
-
-    .btn-warning-modern:hover {
-        background: #f5a623;
-        color: #fff;
-    }
-
-    .btn-danger-modern {
-        background: #e74c3c;
-        color: #fff;
-    }
-
-    .btn-danger-modern:hover {
-        background: #c0392b;
-        color: #fff;
-    }
-
-    .alert-modern {
-        padding: 1em 1.5em;
-        border-radius: 8px;
-        margin-bottom: 1.5em;
-        font-size: 1em;
-        position: relative;
-        box-shadow: 0 2px 8px 0 rgba(44, 62, 80, 0.07);
-    }
-
-    .alert-success-modern {
-        background: #eafaf1;
-        color: #27ae60;
-    }
-
-    .close-alert {
-        position: absolute;
-        top: 0.7em;
-        right: 1em;
-        background: none;
-        border: none;
-        font-size: 1.3em;
-        color: #aaa;
-        cursor: pointer;
-    }
-
-    .card-modern {
-        background: #fff;
-        border-radius: 18px;
-        box-shadow: 0 2px 16px 0 rgba(44, 62, 80, 0.08);
-        padding: 2rem 2rem 1.5rem 2rem;
-        margin-bottom: 2rem;
-        min-height: 60vh;
-        transition: box-shadow 0.2s;
-    }
-
-    .table-responsive-modern {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .table-modern {
-        width: 100%;
-        min-width: 600px;
-        border-collapse: collapse;
-        background: #fff;
-        border-radius: 12px;
-        overflow: hidden;
-        font-size: 1em;
-    }
-
-    .table-modern th,
-    .table-modern td {
-        padding: 0.85em 1em;
-        text-align: left;
-        border-bottom: 1px solid #e9edf5;
-    }
-
-    .table-modern th {
-        background: #f4f7fa;
-        color: #232946;
-        font-weight: 700;
-    }
-
-    .table-modern tr:last-child td {
-        border-bottom: none;
-    }
-
-    .badge-modern {
-        display: inline-block;
-        padding: 0.35em 0.8em;
-        border-radius: 8px;
-        font-size: 0.97em;
-        font-weight: 600;
-    }
-
-    .badge-success-modern {
-        background: #eafaf1;
-        color: #27ae60;
-    }
-
-    .badge-secondary-modern {
-        background: #e9edf5;
-        color: #232946;
-    }
-
-    @media (max-width: 768px) {
-        .table-modern {
-            min-width: 500px;
-        }
-
-        .card-modern {
-            padding: 1.2rem 0.7rem 1rem 0.7rem;
-        }
-
-        .main-content {
-            padding: 1rem 0.2rem 1rem 0.2rem;
-        }
-    }
-</style>
 <?= $this->endSection() ?>
