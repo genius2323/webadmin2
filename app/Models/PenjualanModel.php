@@ -30,4 +30,17 @@ class PenjualanModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
+    public function getData($keyword = null)
+    {
+        if ($keyword) {
+            return $this->where('deleted_at', null)
+                ->groupStart()
+                    ->like('nomor_nota', $keyword)
+                    ->orLike('customer', $keyword)
+                    ->orLike('sales', $keyword)
+                ->groupEnd()
+                ->findAll();
+        }
+        return $this->where('deleted_at', null)->findAll();
+    }
 }

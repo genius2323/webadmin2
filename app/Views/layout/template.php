@@ -171,8 +171,11 @@
             </div>
             <div class="header-user-info">
                 <span><?= esc(session()->get('user_nama')) ?></span>
-                <a href="<?= site_url('logout') ?>" class="btn-logout-modern">
-                    <span class="material-symbols-outlined" style="font-size: 1.25rem; margin-right: 4px;">logout</span>
+                <button id="darkmode-toggle" class="btn-m3 btn-m3-sm btn-secondary-m3" title="Dark Mode" style="margin-right:8px;">
+                    <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;">dark_mode</span>
+                </button>
+                <a href="<?= site_url('logout') ?>" class="btn-m3 btn-danger-m3 btn-m3-sm" style="vertical-align:middle;">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">logout</span>
                     Logout
                 </a>
             </div>
@@ -198,11 +201,17 @@
             const sidebarToggle = document.getElementById('sidebar-toggle'); // Tombol desktop
             const overlay = document.getElementById('sidebar-overlay');
 
+            // --- Terapkan preferensi darkmode dari localStorage saat halaman dimuat ---
+            if (localStorage.getItem('themeMode') === 'dark') {
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+            }
+
             // --- Fungsi Ciutkan/Buka Sidebar di Desktop ---
             if (sidebarToggle) {
                 sidebarToggle.addEventListener('click', () => {
                     layoutContainer.classList.toggle('collapsed');
-                    // Collapse semua submenu jika sidebar di-minimize
                     if (layoutContainer.classList.contains('collapsed')) {
                         document.querySelectorAll('.has-sub').forEach(el => el.classList.remove('open'));
                     }
@@ -224,10 +233,8 @@
             document.querySelectorAll('.nav-toggle').forEach(toggle => {
                 toggle.addEventListener('click', function(e) {
                     const parent = toggle.closest('.has-sub');
-                    // Jika sidebar mini, klik menu dengan submenu akan buka sidebar dan submenu
                     if (layoutContainer.classList.contains('collapsed')) {
                         layoutContainer.classList.remove('collapsed');
-                        // Tutup semua submenu lain
                         document.querySelectorAll('.has-sub').forEach(el => el.classList.remove('open'));
                         parent.classList.add('open');
                         e.stopPropagation();
@@ -236,6 +243,15 @@
                     parent.classList.toggle('open');
                 });
             });
+
+            // --- Darkmode Toggle ---
+            const darkmodeToggle = document.getElementById('darkmode-toggle');
+            if (darkmodeToggle) {
+                darkmodeToggle.addEventListener('click', function() {
+                    const isDark = body.classList.toggle('dark-mode');
+                    localStorage.setItem('themeMode', isDark ? 'dark' : 'light');
+                });
+            }
         });
     </script>
 </body>

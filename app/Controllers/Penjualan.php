@@ -50,7 +50,8 @@ class Penjualan extends BaseController
     }
     public function datapenjualan()
     {
-        $penjualan = $this->penjualanModel->findAll();
+        $keyword = $this->request->getGet('keyword');
+        $penjualan = $this->penjualanModel->getData($keyword);
         $data = [
             'title' => 'Data Penjualan',
             'penjualan' => $penjualan,
