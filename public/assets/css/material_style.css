@@ -1,3 +1,27 @@
+body.dark-mode .table-m3 th {
+    color: #111 !important;
+}
+/* Tombol utama (primary) untuk Simpan dan aksi utama */
+.btn-m3.btn-primary-m3 {
+    background-color: #1976d2 !important;
+    color: #fff !important;
+    padding: 12px;
+    border: none;
+    border-radius: var(--border-radius-large) !important;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: var(--font-family);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(var(--shadow-color), 0.08);
+    transition: background-color var(--transition-speed-fast), box-shadow var(--transition-speed-fast);
+}
+
+.btn-m3.btn-primary-m3:hover,
+.btn-m3.btn-primary-m3:focus {
+    background-color: #1565c0 !important;
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(var(--shadow-color), 0.12);
+}
 /* Material 3 Table Style */
 .table-m3 {
     width: 100%;
@@ -64,7 +88,7 @@
 .btn-m3-danger {
     background: #e53935 !important;
     color: #fff !important;
-    border-radius: var(--border-radius) !important;
+    border-radius: var(--border-radius-large) !important;
     box-shadow: 0 2px 8px rgba(229, 57, 53, 0.08);
 }
 
@@ -120,22 +144,27 @@
     gap: 8px;
     background-color: var(--color-primary);
     color: var(--color-on-primary);
+    border: none !important;
 }
 
 .btn-m3.btn-danger-m3 {
-    background-color: #e53935 !important;
+    background: #e53935 !important;
     color: #fff !important;
+    border-radius: var(--border-radius-large) !important;
+    box-shadow: 0 2px 8px rgba(229, 57, 53, 0.08);
 }
-.btn-m3.btn-warning-m3 {
-    background-color: #FFD600 !important;
-    color: #333 !important;
+.btn-danger-m3 {
+    background: #e53935 !important;
+    color: #fff !important;
+    border-radius: var(--border-radius-large) !important;
+    box-shadow: 0 2px 8px rgba(229, 57, 53, 0.08);
 }
 .btn-m3.btn-secondary-m3 {
     background-color: #90CAF9 !important;
     color: #fff !important;
-    padding: 12px 24px;
+    padding: 12px;
     border: none;
-    border-radius: var(--border-radius-large);
+    border-radius: var(--border-radius-large) !important;
     font-size: 1rem;
     font-weight: 600;
     font-family: var(--font-family);
@@ -153,14 +182,7 @@
 
 /* 1. Pengaturan Dasar & Variabel Desain (Termasuk Dark Mode) */
 
-.header-user-info a[href*="logout"],
-.btn-m3.btn-danger-m3,
-.btn-danger-m3 {
-    background: #e53935 !important;
-    color: #fff !important;
-    border-radius: var(--border-radius) !important;
-    box-shadow: 0 2px 8px rgba(229, 57, 53, 0.08);
-}
+
 
 a, a:visited, a:hover, a:active {
     text-decoration: none !important;
@@ -423,7 +445,7 @@ body.dark-mode .icon-button:hover {
     align-items: center;
     background-color: var(--color-primary);
     color: var(--color-on-primary);
-    padding: 8px 16px;
+    padding: 8px 12px;
     border-radius: var(--border-radius);
     text-decoration: none !important;
     font-weight: 500;

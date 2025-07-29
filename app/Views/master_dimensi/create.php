@@ -1,30 +1,39 @@
 <?= $this->extend('layout/template') ?>
 <?= $this->section('content') ?>
-<div class="app-page-title">
-    <div class="page-title-wrapper">
-        <div class="page-title-heading">
-            <div class="page-title-icon">
-                <i class="fa fa-plus"></i>
-            </div>
-            <div>Tambah Dimensi
-                <div class="page-title-subheading">Form untuk menambah data dimensi baru.</div>
-            </div>
+<div class="form-container" style="max-width: 480px; margin: 0 auto;">
+    <div class="page-header" style="display:flex;align-items:center;gap:16px;margin-left:24px;margin-bottom:18px;">
+        <div class="page-header-icon" style="display:flex;align-items:center;">
+            <span class="material-symbols-outlined" style="font-size:2.2rem;">straighten</span>
+        </div>
+        <div>
+            <h1 class="page-header-title" style="margin:0;">Master Dimensi</h1>
+            <p class="page-header-subtitle" style="margin:0;">Kelola seluruh data dimensi di sini.</p>
         </div>
     </div>
-</div>
-<div class="main-card mb-3 card">
-    <div class="card-body">
-        <form action="<?= site_url('masterdimensi/save') ?>" method="post">
+    <div class="content-card">
+        <?php if (session('success')): ?>
+            <div class="alert alert-success">
+                <span class="material-symbols-outlined alert-icon">check_circle</span>
+                <span><?= session('success') ?></span>
+                <button type="button" class="alert-close" onclick="this.parentElement.style.display='none'">&times;</button>
+            </div>
+        <?php endif; ?>
+        <form action="<?= site_url('masterdimensi/save') ?>" method="post" autocomplete="off">
             <div class="form-group">
-                <label>Nama</label>
-                <input type="text" name="name" class="form-control" required>
+                <label for="name" class="form-label">Nama Dimensi<span style="color:red">*</span></label>
+                <input type="text" name="name" id="name" class="form-m3-input input-m3-date" required placeholder="Nama Dimensi">
             </div>
             <div class="form-group">
-                <label>Deskripsi</label>
-                <input type="text" name="description" class="form-control">
+                <label for="description" class="form-label">Deskripsi</label>
+                <input type="text" name="description" id="description" class="form-m3-input input-m3-date" placeholder="Deskripsi">
             </div>
-            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
-            <a href="<?= site_url('masterdimensi') ?>" class="btn btn-secondary">Batal</a>
+            <div class="form-actions" style="display:flex;justify-content:flex-end;margin-top:32px;gap:10px;">
+                <button type="submit" class="btn-m3 btn-primary-m3">
+                    <span class="material-symbols-outlined" style="vertical-align: middle;">save</span>
+                    Simpan
+                </button>
+                <a href="<?= site_url('masterdimensi') ?>" class="btn-logout-modern" style="background:#e53935;color:#fff;">Batal</a>
+            </div>
         </form>
     </div>
 </div>
