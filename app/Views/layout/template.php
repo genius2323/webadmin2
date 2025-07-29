@@ -15,9 +15,23 @@
     <!-- Link ke CSS Material Baru Anda -->
     <link rel="stylesheet" href="<?= base_url('assets/css/material_style.css') ?>">
 
+    <!-- Flatpickr (Date Picker) CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <script>
+        // Terapkan dark mode class di body SEBELUM halaman dirender
+        (function() {
+            try {
+                var theme = window.localStorage.getItem('themeMode');
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark-mode');
+                }
+            } catch (e) {}
+        })();
+    </script>
 </head>
 
-<body class=""> <!-- Class 'sidebar-open' atau 'collapsed' ditambahkan oleh JS -->
+<body class="<?= (isset($_COOKIE['themeMode']) && $_COOKIE['themeMode'] === 'dark') ? 'dark-mode' : '' ?>"> <!-- Class 'sidebar-open' atau 'collapsed' ditambahkan oleh JS -->
 
     <div class="layout-container" id="layout-container">
         <!-- Sidebar -->
@@ -254,6 +268,11 @@
             }
         });
     </script>
+    <!-- Bootstrap 5 JS Bundle (with Popper) -->
+    <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Flatpickr (Date Picker) JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
 
 </html>

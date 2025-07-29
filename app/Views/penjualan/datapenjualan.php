@@ -17,10 +17,10 @@
             <button type="submit" class="btn-m3 btn-m3-sm" style="height:32px; min-width:32px; padding:6px 10px; border-radius:8px;" title="Cari"><span class="material-symbols-outlined" style="font-size:18px;">search</span></button>
         </form>
         <?php if (isset($canCreate) ? $canCreate : true): ?>
-        <a href="<?= site_url('penjualan') ?>" class="btn-m3 btn-m3-sm" style="height:32px; min-width:32px; padding:6px 10px; border-radius:8px; text-decoration:none;">
-            <span class="material-symbols-outlined" style="vertical-align: middle; font-size:18px;">add</span>
-            <span style="font-size:0.95rem;">Buat Nota Baru</span>
-        </a>
+            <a href="<?= site_url('penjualan') ?>" class="btn-m3 btn-m3-sm" style="height:32px; min-width:32px; padding:6px 10px; border-radius:8px; text-decoration:none;">
+                <span class="material-symbols-outlined" style="vertical-align: middle; font-size:18px;">add</span>
+                <span style="font-size:0.95rem;">Buat Nota Baru</span>
+            </a>
         <?php endif; ?>
     </div>
     <?php if (session()->getFlashdata('success')): ?>
@@ -44,7 +44,16 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($penjualan as $row): ?>
+                <?php
+                // Urutkan data penjualan berdasarkan tanggal nota terbaru di atas
+                if (is_array($penjualan)) {
+                    usort($penjualan, function ($a, $b) {
+                        $tglA = strtotime($a['tanggal_nota'] ?? '');
+                        $tglB = strtotime($b['tanggal_nota'] ?? '');
+                        return $tglB <=> $tglA;
+                    });
+                }
+                foreach ($penjualan as $row): ?>
                     <?php $otoritas = $row['otoritas'] ?? 'T'; ?>
                     <tr>
                         <td style="text-align:center;white-space:nowrap;"> <?= esc($row['nomor_nota']) ?> </td>

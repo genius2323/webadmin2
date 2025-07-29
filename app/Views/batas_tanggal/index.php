@@ -133,14 +133,15 @@
 </style>
 
 <div class="form-container">
-    <div class="page-header">
-        <div class="page-header-icon">
-            <span class="material-symbols-outlined">verified_user</span>
+    <div class="page-header" style="display:flex;align-items:center;gap:16px;margin-left:24px;margin-bottom:18px;">
+        <div class="page-header-icon" style="display:flex;align-items:center;">
+            <span class="material-symbols-outlined" style="font-size:2.2rem;">verified_user</span>
         </div>
-        <h1 class="page-header-title">Batas Tanggal Sistem</h1>
-        <p class="page-header-subtitle">Tingkatkan keamanan dengan mengatur batas waktu input transaksi.</p>
+        <div>
+            <h1 class="page-header-title" style="margin:0;">Batas Tanggal Sistem</h1>
+            <p class="page-header-subtitle" style="margin:0;">Tingkatkan keamanan dengan mengatur batas waktu input transaksi.</p>
+        </div>
     </div>
-
     <div class="content-card">
         <?php if (session('success')): ?>
             <div class="alert alert-success">
@@ -198,9 +199,9 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn-m3">
+                <button type="submit" class="btn-m3 btn-primary-m3">
                     <span class="material-symbols-outlined" style="vertical-align: middle;">save</span>
-                    Simpan Pengaturan
+                    Simpan
                 </button>
             </div>
         </form>

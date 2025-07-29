@@ -1,7 +1,7 @@
 <?= $this->extend('layout/template') ?>
 <?= $this->section('content') ?>
 <div class="form-container" style="max-width: 480px; margin: 0 auto;">
-<div class="page-header" style="display:flex;align-items:center;gap:16px;margin-left:24px;margin-bottom:18px;">
+    <div class="page-header" style="display:flex;align-items:center;gap:16px;margin-left:24px;margin-bottom:18px;">
         <div class="page-header-icon" style="display:flex;align-items:center;">
             <span class="material-symbols-outlined" style="font-size:2.2rem;">category</span>
         </div>
@@ -9,8 +9,8 @@
             <h1 class="page-header-title" style="margin:0;">Master Kategori</h1>
             <p class="page-header-subtitle" style="margin:0;">Kelola seluruh data kategori barang di sini.</p>
         </div>
-    </div>    
-<div class="content-card">
+    </div>
+    <div class="content-card">
         <?php if (session('success')): ?>
             <div class="alert alert-success">
                 <span class="material-symbols-outlined alert-icon">check_circle</span>
